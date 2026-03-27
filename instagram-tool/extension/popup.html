@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Instagram Tool</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div id="app">
+
+  <!-- ══ TOPBAR ══ -->
+  <div class="topbar">
+    <div class="topbar-brand">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+        <defs>
+          <linearGradient id="ig" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#f09433"/>
+            <stop offset="45%" stop-color="#e1306c"/>
+            <stop offset="100%" stop-color="#7c3aed"/>
+          </linearGradient>
+        </defs>
+        <rect x="1.5" y="1.5" width="21" height="21" rx="7" fill="url(#ig)"/>
+        <circle cx="12" cy="12" r="4.8" stroke="white" stroke-width="1.9" fill="none"/>
+        <circle cx="17.5" cy="6.5" r="1.3" fill="white"/>
+      </svg>
+      <span class="brand-name">Instagram Tool</span>
+    </div>
+    <div id="topbar-user" class="topbar-user hidden">
+      <img id="me-avatar" src="" alt="" />
+      <span id="me-username"></span>
+      <button id="btn-logout" class="icon-btn" title="Çıkış">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ NAV ══ -->
+  <div class="nav-bar">
+    <button class="nav-btn active" data-tab="download">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      <span>İndir</span>
+    </button>
+    <button class="nav-btn" data-tab="saved">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+      <span>Kayıtlı</span>
+    </button>
+    <button class="nav-btn" data-tab="downloads">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      <span>Dosyalar</span>
+    </button>
+  </div>
+  <div class="content">
+
+    <!-- ════ İNDİR ════ -->
+    <div id="tab-download" class="tab-pane active">
+      <div class="smart-bar-wrap">
+        <div class="smart-bar">
+          <input type="text" id="smart-input" placeholder="URL, @kullanıcı, #hashtag veya konum..." autocomplete="off" />
+          <span class="smart-hint" id="smart-hint"></span>
+        </div>
+        <button id="btn-smart-dl" class="btn-primary sm" style="margin-top:8px">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          İndir / Ara
+        </button>
+      </div>
+
+      <!-- Önizleme kartı -->
+      <div id="dl-preview"></div>
+      <!-- Sonuç -->
+      <div id="dl-result"></div>
+      <!-- Konum listesi -->
+      <div id="dl-loc-list"></div>
+      <!-- Media grid -->
+      <div id="dl-grid" class="media-grid" style="margin-top:8px"></div>
+    </div>
+
+    <!-- ════ KAYITLILAR ════ -->
+    <div id="tab-saved" class="tab-pane hidden">
+      <div id="saved-auth-gate" class="auth-gate">
+        <div class="auth-gate-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="url(#gs)" stroke-width="2">
+            <defs><linearGradient id="gs" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e1306c"/><stop offset="100%" stop-color="#7c3aed"/></linearGradient></defs>
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+        <p class="auth-gate-msg">Kayıtlıları görmek için giriş yap</p>
+        <p class="auth-gate-sub">Kayıtlı gönderilerini görüntüle ve tek tıkla indir.</p>
+        <div id="mini-login-saved"></div>
+      </div>
+      <div id="saved-content" class="hidden">
+        <div class="saved-toolbar">
+          <div class="dl-toggle" style="margin-bottom:0;flex:1">
+            <button class="dl-type active" data-filter="all">Tümü</button>
+            <button class="dl-type" data-filter="1">📷 Foto</button>
+            <button class="dl-type" data-filter="2">🎬 Video</button>
+          </div>
+          <button id="btn-load-saved" class="btn-icon-search" title="Yenile" style="width:38px;height:38px;flex-shrink:0">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4"/></svg>
+          </button>
+        </div>
+        <button id="btn-download-all" class="btn-primary hidden" style="margin-bottom:12px;margin-top:8px">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Tümünü İndir
+        </button>
+        <div id="saved-list"></div>
+      </div>
+    </div>
+
+    <!-- ════ DOSYALAR ════ -->
+    <div id="tab-downloads" class="tab-pane hidden">
+      <div class="files-toolbar">
+        <div class="dl-toggle" style="margin-bottom:0;flex:1">
+          <button class="dl-type active" data-ftype="all">Tümü</button>
+          <button class="dl-type" data-ftype="image">🖼</button>
+          <button class="dl-type" data-ftype="video">🎬</button>
+        </div>
+        <button id="btn-files-refresh" class="btn-icon-search" title="Yenile" style="width:38px;height:38px;flex-shrink:0">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4"/></svg>
+        </button>
+      </div>
+      <div id="files-stats" class="files-stats"></div>
+      <div id="files-list"></div>
+    </div>
+
+  </div>
+</div>
+<script src="popup.js"></script>
+</body>
+</html>

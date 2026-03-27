@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instagrapi Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- ══ LOGIN SCREEN ══ -->
+    <div id="login-screen" class="login-screen">
+      <div class="login-bg">
+        <div class="login-blob login-blob-1"></div>
+        <div class="login-blob login-blob-2"></div>
+        <div class="login-blob login-blob-3"></div>
+      </div>
+
+      <div class="login-wrap">
+
+        <!-- Tek kart: sol giriş + sağ hızlı indir -->
+        <div class="login-card">
+
+          <!-- SOL: Giriş Formu -->
+          <div class="login-left">
+            <div class="login-brand">
+              <div class="login-brand-logo">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <rect x="1" y="1" width="22" height="22" rx="7" fill="url(#lg-brand)"/>
+                  <defs><linearGradient id="lg-brand" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#f09433"/><stop offset="50%" stop-color="#e1306c"/><stop offset="100%" stop-color="#7c3aed"/>
+                  </linearGradient></defs>
+                  <circle cx="12" cy="12" r="5" stroke="white" stroke-width="2" fill="none"/>
+                  <circle cx="17.8" cy="6.2" r="1.4" fill="white"/>
+                </svg>
+              </div>
+              <span>Instagrapi</span>
+            </div>
+            <h2 class="login-left-title">Hoş geldin</h2>
+            <p class="login-left-sub">Instagram hesabınla giriş yap</p>
+
+            <div class="login-field">
+              <label>Kullanıcı Adı</label>
+              <input type="text" id="l-user" placeholder="instagram_kullanici" autocomplete="off" />
+            </div>
+            <div class="login-field">
+              <label>Şifre</label>
+              <input type="password" id="l-pass" placeholder="••••••••" />
+            </div>
+            <div class="remember-row">
+              <label class="remember-label">
+                <input type="checkbox" id="remember-me" />
+                <span>Beni Hatırla</span>
+              </label>
+            </div>
+            <p class="login-err" id="login-err"></p>
+            <button class="btn-login-submit" id="btn-login">
+              <span id="login-txt">Giriş Yap</span>
+              <span class="spin hidden" id="login-spin"></span>
+            </button>
+
+            <!-- Challenge box -->
+            <div id="challenge-box" class="challenge-box" style="display:none">
+              <div class="challenge-icon">📧</div>
+              <p class="challenge-msg">Instagram doğrulama kodu gönderdi. E-posta veya SMS'ini kontrol et.</p>
+              <div class="login-field" style="margin-top:12px">
+                <label>Doğrulama Kodu</label>
+                <input type="text" id="challenge-code" placeholder="123456" maxlength="8" autocomplete="one-time-code" style="letter-spacing:6px;text-align:center;font-size:22px;font-weight:700" />
+              </div>
+              <button class="btn-login-submit" id="btn-challenge" style="margin-top:10px">
+                <span id="challenge-txt">Doğrula</span>
+                <span class="spin hidden" id="challenge-spin"></span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Dikey ayraç -->
+          <div class="login-divider"></div>
+
+          <!-- SAĞ: Hızlı İndir -->
+          <div class="login-right">
+            <div class="login-right-header">
+              <div class="login-right-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </div>
+              <div>
+                <h2 class="login-right-title">Hızlı İndir</h2>
+                <p class="login-right-sub">Giriş yapmadan post veya reel indir</p>
+              </div>
+            </div>
+
+            <div class="login-dl-bar">
+              <span class="login-dl-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              </span>
+              <input type="text" id="login-dl-input" placeholder="instagram.com/p/... veya #hashtag" autocomplete="off" />
+            </div>
+            <div class="login-dl-type-hint" id="login-dl-hint"></div>
+            <button class="btn-login-submit" id="btn-login-dl">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span id="login-dl-txt">İndir / Ara</span>
+              <span class="spin hidden" id="login-dl-spin"></span>
+            </button>
+
+            <div id="login-dl-preview"></div>
+            <div id="login-dl-result"></div>
+            <div id="login-dl-grid" class="media-grid" style="margin-top:10px"></div>
+            <div id="login-dl-loc"></div>
+
+            <div class="login-right-features">
+              <div class="login-right-feat">⬇ Post &amp; Reel indir</div>
+              <div class="login-right-feat">🔍 Hashtag keşfet</div>
+              <div class="login-right-feat">👤 Profil yönet</div>
+              <div class="login-right-feat">💬 DM gönder</div>
+            </div>
+            <p class="login-dl-note">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Tüm özellikler için giriş yapın
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ MAIN LAYOUT ══ -->
+    <div id="main" class="main hidden">
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+            <rect x="1" y="1" width="22" height="22" rx="7" fill="url(#lg2)"/>
+            <defs><linearGradient id="lg2" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#f09433"/><stop offset="45%" stop-color="#e1306c"/><stop offset="100%" stop-color="#7c3aed"/>
+            </linearGradient></defs>
+            <circle cx="12" cy="12" r="5" stroke="white" stroke-width="2" fill="none"/>
+            <circle cx="17.8" cy="6.2" r="1.4" fill="white"/>
+          </svg>
+          <span class="sidebar-brand">Instagrapi</span>
+        </div>
+        <div class="me-card" id="me-card">
+          <img id="me-pic" src="" alt="" />
+          <div>
+            <div class="me-name" id="me-name">—</div>
+            <div class="me-full" id="me-full"></div>
+          </div>
+        </div>
+        <nav class="sidebar-nav">
+          <a class="nav-item active" data-page="dashboard">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            Dashboard
+          </a>
+          <a class="nav-item" data-page="profile">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            Profil Ara
+          </a>
+          <a class="nav-item" data-page="download">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            İndir
+          </a>
+          <a class="nav-item" data-page="downloads">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            İndirilenler
+          </a>
+          <a class="nav-item" data-page="saved">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            Kayıtlılar
+          </a>
+          <a class="nav-item" data-page="followers">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Takipçiler
+          </a>
+          <a class="nav-item" data-page="explore">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Keşfet
+          </a>
+          <a class="nav-item" data-page="dm">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Mesajlar
+          </a>
+          <a class="nav-item" data-page="scheduler">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Zamanlayıcı
+          </a>
+          <a class="nav-item" data-page="publish">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Paylaş
+          </a>
+        </nav>
+        <button class="sidebar-logout" id="btn-logout">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Çıkış Yap
+        </button>
+      </aside>
+
+      <!-- CONTENT -->
+      <main class="page-content">
+
+        <!-- ── DASHBOARD ── -->
+        <div id="page-dashboard" class="page active">
+          <div class="page-header">
+            <h2>Dashboard</h2>
+            <p>Hesap özeti ve hızlı işlemler</p>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon" style="background:linear-gradient(135deg,#f09433,#e1306c)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <div class="stat-val" id="d-followers">—</div>
+              <div class="stat-lbl">Takipçi</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:linear-gradient(135deg,#e1306c,#7c3aed)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+              </div>
+              <div class="stat-val" id="d-following">—</div>
+              <div class="stat-lbl">Takip</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:linear-gradient(135deg,#7c3aed,#2563eb)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              </div>
+              <div class="stat-val" id="d-posts">—</div>
+              <div class="stat-lbl">Gönderi</div>
+            </div>
+          </div>
+          <!-- Akıllı arama kutusu -->
+          <div class="smart-search-wrap">
+            <div class="smart-search-bar">
+              <span class="smart-search-icon" id="dash-search-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              </span>
+              <input type="text" id="dash-search" placeholder="URL, @kullanıcı, #hashtag veya konum..." autocomplete="off" />
+              <span class="smart-search-hint" id="dash-search-hint"></span>
+              <button class="btn-grad sm" id="btn-dash-search">Ara / İndir</button>
+            </div>
+            <div id="dash-search-result"></div>
+          </div>
+        </div>
+
+        <!-- ── PROFİL ARA ── -->
+        <div id="page-profile" class="page">
+          <div class="page-header">
+            <h2>Profil Ara</h2>
+            <p>Kullanıcı bilgilerini görüntüle ve yönet</p>
+          </div>
+          <div class="smart-search-wrap">
+            <div class="smart-search-bar">
+              <span class="smart-search-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              </span>
+              <input type="text" id="p-search" placeholder="Kullanıcı adı ara..." autocomplete="off" />
+              <button class="btn-grad sm" id="btn-p-search">Ara</button>
+            </div>
+          </div>
+          <div id="profile-result"></div>
+        </div>
+
+        <!-- ── İNDİR ── -->
+        <div id="page-download" class="page">
+          <div class="page-header">
+            <h2>İndir</h2>
+            <p>Post, Reel, Story, Hashtag veya Konum</p>
+          </div>
+
+          <!-- Akıllı Arama -->
+          <div class="smart-search-wrap">
+            <div class="smart-search-bar">
+              <span class="smart-search-icon" id="dl-search-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              </span>
+              <input type="text" id="dl-search" placeholder="instagram.com/p/... veya @kullanıcı, #hashtag, konum..." autocomplete="off" />
+              <span class="smart-search-hint" id="dl-search-hint"></span>
+              <button class="btn-outline sm" id="btn-dl-preview" title="Önizle">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                Önizle
+              </button>
+              <button class="btn-grad sm" id="btn-dl-search">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                İndir / Ara
+              </button>
+            </div>
+
+            <!-- Önizleme kartı -->
+            <div id="dl-preview-card"></div>
+
+            <!-- Sonuç / hata mesajı -->
+            <div id="dl-search-result"></div>
+
+            <!-- Konum listesi -->
+            <div id="dl-loc-list"></div>
+
+            <!-- Media grid (hashtag/konum sonuçları) -->
+            <div id="dl-media-grid" class="media-grid" style="margin-top:12px"></div>
+          </div>
+
+          <!-- Son İndirilenler -->
+          <div class="dl-recent-wrap" id="dl-recent-wrap" style="display:none">
+            <div class="dl-recent-header">
+              <span>Son İndirilenler</span>
+              <a class="dl-recent-all" data-page="downloads">Tümünü Gör →</a>
+            </div>
+            <div id="dl-recent-grid" class="dl-recent-grid"></div>
+          </div>
+        </div>
+
+        <!-- ── İNDİRİLENLER ── -->
+        <div id="page-downloads" class="page">
+          <div class="page-header">
+            <h2>İndirilenler</h2>
+            <p>Yerel diske kaydedilen tüm medyalar</p>
+          </div>
+          <div class="dl-toolbar">
+            <div class="seg" id="dl-type-seg">
+              <button class="seg-btn active" data-filter="all">Tümü</button>
+              <button class="seg-btn" data-filter="image">🖼 Fotoğraf</button>
+              <button class="seg-btn" data-filter="video">🎬 Video</button>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <input type="text" id="dl-filter-text" placeholder="Dosya adı filtrele..." style="width:200px" />
+              <button class="btn-outline" id="btn-dl-refresh">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                Yenile
+              </button>
+              <button class="btn-outline" id="btn-dl-open-folder">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                Klasörü Aç
+              </button>
+            </div>
+          </div>
+          <div id="dl-stats" class="dl-stats"></div>
+          <div id="dl-list" class="dl-list"></div>
+        </div>
+
+        <!-- ── KAYITLILAR ── -->
+        <div id="page-saved" class="page">
+          <div class="page-header">
+            <h2>Kayıtlılar</h2>
+            <p>Kayıtlı gönderilerini yönet ve indir</p>
+          </div>
+
+          <div class="toolbar">
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <!-- Tür filtresi -->
+              <div class="seg" id="saved-seg">
+                <button class="seg-btn active" data-filter="all">Tümü</button>
+                <button class="seg-btn" data-filter="1">📷 Fotoğraf</button>
+                <button class="seg-btn" data-filter="2">🎬 Video</button>
+              </div>
+              <!-- Koleksiyon sekmeleri -->
+              <div class="saved-col-tabs" id="saved-col-tabs">
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+              <span id="saved-count" style="font-size:12px;color:var(--muted)"></span>
+              <div class="saved-amount-wrap">
+                <label class="saved-amount-label">Çek:</label>
+                <select id="saved-amount-select" class="saved-amount-select">
+                  <option value="20">20</option>
+                  <option value="50" selected>50</option>
+                  <option value="100">100</option>
+                  <option value="200">200</option>
+                  <option value="0">Hepsini</option>
+                </select>
+              </div>
+              <button class="btn-outline" id="btn-load-saved">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4"/></svg>
+                Yükle
+              </button>
+              <button class="btn-grad sm" id="btn-dl-all" style="display:none">Tümünü İndir</button>
+              <button class="btn-outline sm" id="btn-sv-select-all" style="display:none">Tümünü Seç</button>
+              <button class="btn-danger sm" id="btn-sv-rm-selected" style="display:none">Seçilenleri Kaldır</button>
+            </div>
+          </div>
+          <div id="saved-grid" class="saved-list"></div>
+        </div>
+
+        <!-- ── KEŞFET ── -->
+        <div id="page-explore" class="page">
+          <div class="page-header">
+            <h2>Keşfet</h2>
+            <p>Hashtag, kullanıcı veya konum ara</p>
+          </div>
+          <div class="smart-search-wrap">
+            <div class="smart-search-bar">
+              <span class="smart-search-icon" id="ex-search-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              </span>
+              <input type="text" id="ex-search" placeholder="#hashtag, @kullanıcı veya konum adı..." autocomplete="off" />
+              <span class="smart-search-hint" id="ex-search-hint"></span>
+              <button class="btn-grad sm" id="btn-ex-search">Ara</button>
+            </div>
+            <div id="ex-search-result"></div>
+            <div id="ex-loc-list"></div>
+            <div id="ex-media-grid" class="media-grid" style="margin-top:12px"></div>
+          </div>
+        </div>
+
+        <!-- ── MESAJLAR ── -->
+        <div id="page-dm" class="page">
+          <div class="page-header">
+            <h2>Mesajlar</h2>
+            <p>DM gönder ve gelen kutusunu gör</p>
+          </div>
+          <div class="dash-grid">
+            <div class="card">
+              <div class="dash-card-title">DM Gönder</div>
+              <div class="field">
+                <label>Kullanıcı Adı</label>
+                <input type="text" id="dm-to" placeholder="alici_kullanici" />
+              </div>
+              <div class="field" style="margin-top:10px">
+                <label>Mesaj</label>
+                <textarea id="dm-text" rows="3" placeholder="Mesajınızı yazın..."></textarea>
+              </div>
+              <button class="btn-grad" id="btn-dm-send" style="margin-top:12px">Gönder</button>
+              <div id="dm-result"></div>
+            </div>
+            <div class="card">
+              <div class="dash-card-title" style="display:flex;justify-content:space-between;align-items:center">
+                Gelen Kutusu
+                <button class="btn-outline sm" id="btn-inbox">Yükle</button>
+              </div>
+              <div id="inbox-list"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── TAKİPÇİLER ── -->
+        <div id="page-followers" class="page">
+          <div class="page-header">
+            <h2>Takipçiler</h2>
+            <p>Takipçilerini ve takip ettiklerini yönet</p>
+          </div>
+
+          <!-- İstatistik Kartları -->
+          <div id="flw-stat-cards" class="flw-stat-cards"></div>
+
+          <!-- Toolbar -->
+          <div class="flw-toolbar">
+            <div class="seg" id="flw-seg">
+              <button class="seg-btn active" data-tab="followers">Takipçilerim</button>
+              <button class="seg-btn" data-tab="following">Takip Ettiklerim</button>
+              <button class="seg-btn" data-tab="notfollowing">Geri Takip Etmeyenler</button>
+              <button class="seg-btn" data-tab="mutual">Karşılıklı</button>
+              <button class="seg-btn" data-tab="csv">📋 CSV'den Çıkar</button>
+            </div>
+            <div class="flw-toolbar-right">
+              <div class="saved-amount-wrap">
+                <label class="saved-amount-label">Çek:</label>
+                <select id="flw-amount" class="saved-amount-select">
+                  <option value="200" selected>~200</option>
+                  <option value="400">~400</option>
+                  <option value="1000">~1000</option>
+                  <option value="0">Tümünü</option>
+                </select>
+              </div>
+              <button class="btn-grad sm" id="btn-flw-load">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4"/></svg>
+                Yükle
+              </button>
+            </div>
+          </div>
+
+          <!-- Arama + araçlar satırı -->
+          <div class="flw-search-row">
+            <div class="flw-search-bar">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="flw-search" placeholder="İsim veya kullanıcı adı filtrele..." autocomplete="off" />
+            </div>
+            <!-- Sıralama -->
+            <select id="flw-sort" class="saved-amount-select" style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:8px 12px;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;outline:none">
+              <option value="default">Varsayılan</option>
+              <option value="az">A → Z</option>
+              <option value="za">Z → A</option>
+            </select>
+            <!-- Toplu işlem araçları -->
+            <div id="flw-bulk-tools" style="display:none;gap:6px;align-items:center" class="flw-bulk-tools">
+              <span id="flw-sel-count" class="flw-sel-count">0 seçili</span>
+              <button class="btn-outline sm" id="btn-flw-sel-all">Tümünü Seç</button>
+              <button class="btn-danger sm" id="btn-flw-bulk-action">Seçilenleri İşle</button>
+            </div>
+            <!-- Dışa aktar -->
+            <button class="btn-outline sm" id="btn-flw-export" style="display:none">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              CSV İndir
+            </button>
+            <div id="flw-stats"></div>
+          </div>
+
+          <!-- CSV Paneli -->
+          <div id="flw-csv-panel" style="display:none">
+            <div class="csv-drop-zone" id="csv-drop-zone">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+              <div class="csv-drop-title">CSV dosyasını sürükle veya tıkla</div>
+              <div class="csv-drop-sub">username sütunu içeren herhangi bir CSV formatı</div>
+              <input type="file" id="csv-file-input" accept=".csv,.txt" style="display:none" />
+            </div>
+            <div class="csv-paste-wrap">
+              <div class="csv-paste-label">veya kullanıcı adlarını yapıştır (her satıra bir tane)</div>
+              <textarea id="csv-paste" rows="4" placeholder="kullanici1&#10;kullanici2&#10;kullanici3"></textarea>
+              <button class="btn-outline sm" id="btn-csv-parse">Listele</button>
+            </div>
+            <div id="csv-result"></div>
+          </div>
+
+          <!-- Grid -->
+          <div id="flw-grid" class="flw-grid"></div>
+        </div>
+
+        <!-- ── ZAMANLAYICI ── -->
+        <div id="page-scheduler" class="page">
+          <div class="page-header">
+            <h2>Zamanlayıcı</h2>
+            <p>Otomatik story indirme zamanlaması</p>
+          </div>
+          <div class="dash-grid">
+            <div class="card">
+              <div class="dash-card-title">Yeni Zamanlayıcı Ekle</div>
+              <div class="field">
+                <label>Kullanıcı Adı</label>
+                <input type="text" id="sch-user" placeholder="kullanici_adi" />
+              </div>
+              <div class="field" style="margin-top:10px">
+                <label>Aralık (dakika)</label>
+                <input type="number" id="sch-interval" value="60" min="10" />
+              </div>
+              <button class="btn-grad" id="btn-sch-add" style="margin-top:12px">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Ekle
+              </button>
+              <div id="sch-result"></div>
+            </div>
+            <div class="card">
+              <div class="dash-card-title" style="display:flex;justify-content:space-between;align-items:center">
+                Aktif Zamanlayıcılar
+                <button class="btn-outline sm" id="btn-sch-load">Yükle</button>
+              </div>
+              <div id="sch-list"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── PAYLAŞ ── -->
+        <div id="page-publish" class="page">
+          <div class="page-header">
+            <h2>Paylaş</h2>
+            <p>Fotoğraf, video, reel, story veya albüm paylaş</p>
+          </div>
+
+          <div class="publish-layout">
+
+            <!-- SOL: Form -->
+            <div class="publish-form-col">
+
+              <!-- Medya Tipi Seçici -->
+              <div class="card" style="margin-bottom:16px">
+                <div class="pub-type-grid">
+                  <button class="pub-type-btn active" data-type="photo">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    <span>Fotoğraf</span>
+                  </button>
+                  <button class="pub-type-btn" data-type="video">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+                    <span>Video</span>
+                  </button>
+                  <button class="pub-type-btn" data-type="reel">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                    <span>Reel</span>
+                  </button>
+                  <button class="pub-type-btn" data-type="album">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="16" height="14" rx="2"/><path d="M6 7V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-2"/></svg>
+                    <span>Albüm</span>
+                  </button>
+                  <button class="pub-type-btn" data-type="story_photo">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+                    <span>Story Foto</span>
+                  </button>
+                  <button class="pub-type-btn" data-type="story_video">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                    <span>Story Video</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Dosya Yükleme -->
+              <div class="card" style="margin-bottom:16px">
+                <div class="field-label">Medya Dosyası</div>
+                <!-- Tekli yükleme (photo/video/reel/story) -->
+                <div id="pub-single-upload">
+                  <div class="pub-drop-zone" id="pub-drop-zone">
+                    <input type="file" id="pub-file-input" accept="image/*,video/*" style="display:none" />
+                    <div class="pub-drop-icon">
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    </div>
+                    <div class="pub-drop-text">Dosyayı sürükle veya tıkla</div>
+                    <div class="pub-drop-sub" id="pub-drop-sub">JPG, PNG, MP4 desteklenir</div>
+                  </div>
+                  <div id="pub-file-preview" class="pub-file-preview" style="display:none"></div>
+                </div>
+                <!-- Albüm yükleme -->
+                <div id="pub-album-upload" style="display:none">
+                  <div class="pub-drop-zone" id="pub-album-drop-zone">
+                    <input type="file" id="pub-album-input" accept="image/*,video/*" multiple style="display:none" />
+                    <div class="pub-drop-icon">
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="16" height="14" rx="2"/><path d="M6 7V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-2"/></svg>
+                    </div>
+                    <div class="pub-drop-text">Birden fazla dosya seç (maks 10)</div>
+                    <div class="pub-drop-sub">JPG, PNG, MP4 desteklenir</div>
+                  </div>
+                  <div id="pub-album-preview" class="pub-album-preview"></div>
+                </div>
+              </div>
+
+              <!-- Caption -->
+              <div class="card" style="margin-bottom:16px" id="pub-caption-card">
+                <div class="field-label">Açıklama (Caption)</div>
+                <textarea id="pub-caption" rows="4" placeholder="Gönderi açıklaması yazın... #hashtag @mention"></textarea>
+                <div class="pub-caption-meta">
+                  <span id="pub-caption-count" style="font-size:11px;color:var(--muted)">0 / 2200</span>
+                </div>
+              </div>
+
+              <!-- Konum -->
+              <div class="card" style="margin-bottom:16px" id="pub-location-card">
+                <div class="field-label">Konum</div>
+                <div class="smart-search-bar" style="margin-bottom:8px">
+                  <span class="smart-search-icon">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  </span>
+                  <input type="text" id="pub-loc-search" placeholder="Konum ara..." autocomplete="off" />
+                  <button class="btn-outline sm" id="btn-pub-loc-search">Ara</button>
+                </div>
+                <div id="pub-loc-results"></div>
+                <div id="pub-loc-selected" class="pub-loc-selected" style="display:none"></div>
+              </div>
+
+              <!-- Kullanıcı Etiketleme -->
+              <div class="card" style="margin-bottom:16px" id="pub-usertag-card">
+                <div class="field-label">Kullanıcı Etiketle</div>
+                <div class="smart-search-bar" style="margin-bottom:8px">
+                  <span class="smart-search-icon">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                  </span>
+                  <input type="text" id="pub-tag-input" placeholder="@kullanıcı adı" autocomplete="off" />
+                  <button class="btn-outline sm" id="btn-pub-tag-add">Ekle</button>
+                </div>
+                <div id="pub-tags-list" class="pub-tags-list"></div>
+              </div>
+
+              <!-- Zamanlama -->
+              <div class="card" style="margin-bottom:16px">
+                <div class="field-label">Zamanlama</div>
+                <div class="pub-schedule-row">
+                  <label class="pub-schedule-toggle">
+                    <input type="checkbox" id="pub-schedule-check" />
+                    <span class="pub-schedule-toggle-label">Zamanlı paylaşım</span>
+                  </label>
+                </div>
+                <div id="pub-schedule-fields" style="display:none;margin-top:12px">
+                  <input type="datetime-local" id="pub-schedule-dt" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:13px;font-family:inherit;background:var(--surface2);color:var(--text);outline:none" />
+                  <p style="font-size:11px;color:var(--muted);margin-top:6px">Seçilen tarih ve saatte otomatik paylaşılır.</p>
+                </div>
+              </div>
+
+              <!-- Paylaş Butonu -->
+              <button class="btn-grad" id="btn-publish" style="width:100%;padding:14px;font-size:15px;font-weight:700">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                <span id="pub-btn-txt">Paylaş</span>
+                <span class="spin hidden" id="pub-btn-spin"></span>
+              </button>
+              <div id="pub-result" style="margin-top:12px"></div>
+            </div>
+
+            <!-- SAĞ: Kuyruk -->
+            <div class="publish-queue-col">
+              <div class="card">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+                  <div class="dash-card-title" style="margin:0">Paylaşım Kuyruğu</div>
+                  <button class="btn-outline sm" id="btn-pub-queue-refresh">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4"/></svg>
+                    Yenile
+                  </button>
+                </div>
+                <div id="pub-queue-list">
+                  <div style="text-align:center;padding:28px 0;color:var(--muted);font-size:13px">Henüz paylaşım yok.</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+  <script src="app.js"></script>
+</body>
+</html>

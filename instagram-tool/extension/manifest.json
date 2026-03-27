@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Instagram Tool",
+  "version": "1.1",
+  "description": "Instagram profil, post, story ve kayıtlı video indirici",
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "insta.png"
+  },
+  "icons": {
+    "16": "insta.png",
+    "48": "insta.png",
+    "128": "insta.png"
+  },
+  "permissions": [],
+  "host_permissions": ["http://localhost/*", "https://www.instagram.com/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://www.instagram.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle",
+      "world": "ISOLATED"
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
