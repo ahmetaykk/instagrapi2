@@ -171,3 +171,69 @@ To release, you need to call the following commands:
 
     python -m build
     twine upload dist/*
+
+---
+
+## Instagram Tool (Web Dashboard + Chrome Extension)
+
+A complete Instagram management suite built on top of `instagrapi` with **FastAPI backend**, **Web Dashboard**, and **Chrome Extension**.
+
+### Project Structure
+
+```
+instagrapi/
+├── .venv/                         ← shared virtual environment
+└── instagram-tool/
+    ├── run.py                     ← one-command launcher
+    ├── backend/                   # FastAPI server, session management
+    ├── web/                       # Dashboard UI (HTML/JS/CSS)
+    └── extension/                 # Chrome Extension files
+```
+
+### Quick Start
+
+```bash
+python3 instagrapi/instagram-tool/run.py
+```
+
+Automatically sets up the virtual environment, installs dependencies, finds an available port (8000–9000), and opens the web dashboard.
+
+### Chrome Extension Setup
+
+1. Go to `chrome://extensions` in Chrome
+2. Enable **Developer mode**
+3. Click **Load unpacked**
+4. Select `instagrapi/instagram-tool/extension` folder
+
+The extension auto-detects the backend port (scans 8000–8010).
+
+### Dashboard Features
+
+- **Dashboard** - Statistics cards (followers, following, posts), smart search (URL/@user/#hashtag/location)
+- **Search Profile** - User lookup, follow/unfollow, view followers/following
+- **Download** - Posts, reels, videos, albums, stories; hashtag/location search; preview cards
+- **Downloads** - File management with thumbnails, filters, open in Finder
+- **Saved** - Saved posts & collections, bulk download
+- **Followers** - Follower management, "not following back" detection, CSV export
+- **Explore** - Media grid by hashtag, user, or location
+- **Messages** - DM inbox and sending
+- **Scheduler** - Auto-download stories with interval settings
+- **Publish** - Photo, video, reel, album (max 10), story uploads with drag-drop, caption editor, mentions, location tagging, and **scheduled posting**
+
+### API Endpoints (Instagram Tool)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/login` / `/logout` | Authentication |
+| GET | `/me` | Session info |
+| POST | `/challenge/submit` | 2FA/challenge verification |
+| GET | `/profile/{username}` | Profile data |
+| POST | `/follow` / `/unfollow` | Follow actions |
+| POST | `/download/post` | Download posts/reels/albums |
+| GET | `/download/stories/{username}` | Download stories |
+| GET | `/saved` / `/saved/collections` | Saved posts management |
+| POST | `/publish/now` / `/publish/schedule` | Publish immediately or schedule |
+| GET | `/publish/queue` | Scheduled posts queue |
+| GET | `/inbox` / POST `/dm/send` | Direct messages |
+
+See [`instagram-tool/README.md`](instagram-tool/README.md) for full documentation.
